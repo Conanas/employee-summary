@@ -2,17 +2,105 @@ const Manager = require("./lib/Manager");
 const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
 const inquirer = require("inquirer");
+const util = require("util");
 const path = require("path");
 const fs = require("fs");
 
 const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
+const writeFileAsync = util.promisify(fs.writeFile);
+
 const render = require("./lib/htmlRenderer");
 
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
+
+function promptEmployee() {
+    return inquirer.prompt([{
+            type: "input",
+            message: "Enter Employees Name: ",
+            name: "name"
+        },
+        {
+            type: "input",
+            message: "Enter Employees ID: ",
+            name: "id"
+        },
+        {
+            type: "input",
+            message: "Enter Employees Email: ",
+            name: "email"
+        },
+        {
+            type: "list",
+            message: "Enter Employees Role: ",
+            choices: ["Manager", "Engineer", "Intern"],
+            name: "role"
+        }
+    ]);
+}
+
+function promptManager() {
+    return inquirer.prompt([{
+        type: "input",
+        message: "Enter Managers Office Number: ",
+        name: "officeNumber"
+    }]);
+}
+
+function promptEngineer() {
+    return inquirer.prompt([{
+        type: "input",
+        message: "Enter Engineers Github Account Name: ",
+        name: "github"
+    }]);
+}
+
+function promptIntern() {
+    return inquirer.prompt([{
+        type: "input",
+        message: "Enter Interns School: ",
+        name: "school"
+    }]);
+}
+
+async function promptRole(employeeAnswers) {
+    try {
+        let roleAnswers;
+        switch (employeeAnswers.role) {
+            case ("Manager"):
+                roleAnswers = await promptManager();
+                break;
+            case ("Engineer"):
+                roleAnswers = await promptEngineer();
+                break;
+            case ("intern"):
+                roleAnswers = await promptIntern();
+                break;
+            default:
+                console.log("No Role");
+        }
+        return roleAnswers;
+    } catch (error) {
+        console.log(`Error: ${error}`);
+    }
+}
+
+async function init() {
+    try {
+        const employeeAnswers = await promptEmployee();
+        const roleAnswers = await promptRole(employeeAnswers);
+
+        console.log(JSON.stringify(employeeAnswers) + JSON.stringify(roleAnswers))
+        console.log("Everything went well!");
+    } catch (error) {
+        console.log(`Error: ${error}`);
+    }
+}
+
+init();
 
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
