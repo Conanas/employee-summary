@@ -66,23 +66,27 @@ function promptIntern() {
     }]);
 }
 
-async function promptRole(employeeAnswers) {
+async function createEmployee(employeeAnswers) {
     try {
         let roleAnswers;
+        let employee;
         switch (employeeAnswers.role) {
             case ("Manager"):
                 roleAnswers = await promptManager();
+                employee = new Manager(employeeAnswers.name, employeeAnswers.id, employeeAnswers.email, roleAnswers.officeNumber);
                 break;
             case ("Engineer"):
                 roleAnswers = await promptEngineer();
+                employee = new Engineer(employeeAnswers.name, employeeAnswers.id, employeeAnswers.email, roleAnswers.github);
                 break;
-            case ("intern"):
+            case ("Intern"):
                 roleAnswers = await promptIntern();
+                employee = new Intern(employeeAnswers.name, employeeAnswers.id, employeeAnswers.email, roleAnswers.school);
                 break;
             default:
                 console.log("No Role");
         }
-        return roleAnswers;
+        return employee;
     } catch (error) {
         console.log(`Error: ${error}`);
     }
@@ -91,9 +95,9 @@ async function promptRole(employeeAnswers) {
 async function init() {
     try {
         const employeeAnswers = await promptEmployee();
-        const roleAnswers = await promptRole(employeeAnswers);
+        const employee = await createEmployee(employeeAnswers);
 
-        console.log(JSON.stringify(employeeAnswers) + JSON.stringify(roleAnswers))
+        console.log(JSON.stringify(employee))
         console.log("Everything went well!");
     } catch (error) {
         console.log(`Error: ${error}`);
