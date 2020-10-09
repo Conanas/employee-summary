@@ -92,12 +92,33 @@ async function createEmployee(employeeAnswers) {
     }
 }
 
+function promptAnother() {
+    return inquirer.prompt([{
+        type: "list",
+        message: "Add another employee?",
+        choices: ["Yes", "No"],
+        name: "adding"
+    }])
+}
+
 async function init() {
     try {
-        const employeeAnswers = await promptEmployee();
-        const employee = await createEmployee(employeeAnswers);
+        let employeeArray = [];
+        let addingEmployee = true;
+        let employeeAnswers;
+        let employee;
+        let another;
+        while (addingEmployee) {
+            employeeAnswers = await promptEmployee();
+            employee = await createEmployee(employeeAnswers);
+            employeeArray.push(employee);
+            another = await promptAnother();
+            if (another.adding === "No") {
+                addingEmployee = false;
+            }
+        }
 
-        console.log(JSON.stringify(employee))
+        console.log(JSON.stringify(employeeArray));
         console.log("Everything went well!");
     } catch (error) {
         console.log(`Error: ${error}`);
