@@ -102,7 +102,21 @@ function promptAnother() {
     }])
 }
 
-
+function createSavedEmployees(savedEmployees) {
+    let employeeArray = [];
+    JSON.parse(savedEmployees).forEach((item) => {
+        let tempEmp;
+        if (item.role === "Manager") {
+            tempEmp = new Manager(item.name, item.id, item.email, item.officeNumber);
+        } else if (item.role === "Engineer") {
+            tempEmp = new Engineer(item.name, item.id, item.email, item.github);
+        } else if (item.role === "Intern") {
+            tempEmp = new Intern(item.name, item.id, item.email, item.school);
+        }
+        employeeArray.push(tempEmp);
+    });
+    return employeeArray;
+}
 
 async function init() {
     try {
@@ -115,17 +129,7 @@ async function init() {
         const savedEmployees = await readFileAsync(savedEmployeePath, "utf-8");
 
         if (savedEmployees.length != 0) {
-            JSON.parse(savedEmployees).forEach((item) => {
-                let tempEmp;
-                if (item.role === "Manager") {
-                    tempEmp = new Manager(item.name, item.id, item.email, item.officeNumber);
-                } else if (item.role === "Engineer") {
-                    tempEmp = new Engineer(item.name, item.id, item.email, item.github);
-                } else if (item.role === "Intern") {
-                    tempEmp = new Intern(item.name, item.id, item.email, item.school);
-                }
-                employeeArray.push(tempEmp);
-            });
+            employeeArray = createSavedEmployees(savedEmployees);
         }
 
         while (addingEmployee) {
