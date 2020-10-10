@@ -13,6 +13,17 @@ font-family: 'Roboto', sans-serif; */
 body {
     background-color: var(--french-grey);
     color: var(--french-grey);
+    font-family: 'Open Sans', sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700;
 }
 
 .team-heading {
@@ -41,4 +52,9 @@ body {
 .list-group-item {
     background-color: var(--french-grey);
     color: var(--navy);
+}
+
+footer {
+    background-color: var(--navy);
+    color: var(--french-grey);
 }
