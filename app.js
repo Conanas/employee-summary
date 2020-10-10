@@ -97,7 +97,7 @@ async function createEmployee(employeeAnswers) {
 function promptAnother() {
     return inquirer.prompt([{
         type: "confirm",
-        message: "Add another employee?",
+        message: "Add an employee?",
         name: "adding"
     }])
 }
@@ -130,12 +130,13 @@ async function init() {
 
         let addingEmployee = true;
         while (addingEmployee) {
-            let employeeAnswers = await promptEmployee();
-            let employee = await createEmployee(employeeAnswers);
-            employeeArray.push(employee);
             let another = await promptAnother();
             if (another.adding === false) {
                 addingEmployee = false;
+            } else {
+                let employeeAnswers = await promptEmployee();
+                let employee = await createEmployee(employeeAnswers);
+                employeeArray.push(employee);
             }
         }
 
