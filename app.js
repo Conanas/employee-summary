@@ -121,10 +121,6 @@ function createSavedEmployees(savedEmployees) {
 async function init() {
     try {
         let employeeArray = [];
-        let addingEmployee = true;
-        let employeeAnswers;
-        let employee;
-        let another;
 
         const savedEmployees = await readFileAsync(savedEmployeePath, "utf-8");
 
@@ -132,11 +128,12 @@ async function init() {
             employeeArray = createSavedEmployees(savedEmployees);
         }
 
+        let addingEmployee = true;
         while (addingEmployee) {
-            employeeAnswers = await promptEmployee();
-            employee = await createEmployee(employeeAnswers);
+            let employeeAnswers = await promptEmployee();
+            let employee = await createEmployee(employeeAnswers);
             employeeArray.push(employee);
-            another = await promptAnother();
+            let another = await promptAnother();
             if (another.adding === false) {
                 addingEmployee = false;
             }
