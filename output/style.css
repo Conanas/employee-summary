@@ -34,7 +34,7 @@ body {
     background-color: var(--sand);
 }
 
-.list-group {
+.list-group-item {
     background-color: var(--french-grey);
     color: var(--navy);
 }
