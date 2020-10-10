@@ -143,7 +143,7 @@ async function init() {
 
         let html = render(employeeArray);
 
-        await writeFileAsync(outputPath, html);
+        await writeFileAsync(outputPath, html.replace(/,/g, ""));
 
         console.log("Everything went well!");
     } catch (error) {
