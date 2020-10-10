@@ -1,6 +1,19 @@
+:root {
+    --black: #000000;
+    --navy: #14213D;
+    --sand: #FCA311;
+    --french-grey: #E5E5E5;
+    --white: #FFFFFF;
+}
+
+body {
+    background-color: var(--french-grey);
+    color: var(--french-grey);
+}
+
 .team-heading {
-    background-color: black;
-    color: white;
+    background-color: var(--navy);
+    color: var(--french-grey);
 }
 
 .employee-card {
@@ -9,8 +22,8 @@
 }
 
 .card-header {
-    background-color: black;
-    color: white;
+    background-color: var(--navy);
+    color: var(--french-grey);
 }
 
 .card-title {
@@ -18,5 +31,10 @@
 }
 
 .card-body {
-    background-color: grey;
+    background-color: var(--sand);
+}
+
+.list-group {
+    background-color: var(--french-grey);
+    color: var(--navy);
 }
