@@ -6,6 +6,10 @@
     --white: #FFFFFF;
 }
 
+
+/* font-family: 'Open Sans', sans-serif;
+font-family: 'Roboto', sans-serif; */
+
 body {
     background-color: var(--french-grey);
     color: var(--french-grey);
