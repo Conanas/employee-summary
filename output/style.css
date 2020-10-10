@@ -1,0 +1,22 @@
+.team-heading {
+    background-color: black;
+    color: white;
+}
+
+.employee-card {
+    width: 300px;
+    margin: 8px;
+}
+
+.card-header {
+    background-color: black;
+    color: white;
+}
+
+.card-title {
+    font-size: 28px;
+}
+
+.card-body {
+    background-color: grey;
+}
