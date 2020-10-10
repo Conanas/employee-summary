@@ -102,6 +102,8 @@ function promptAnother() {
     }])
 }
 
+
+
 async function init() {
     try {
         let employeeArray = [];
@@ -110,13 +112,21 @@ async function init() {
         let employee;
         let another;
 
-        // const savedEmployees = await readFileAsync(savedEmployeePath, "utf-8");
+        const savedEmployees = await readFileAsync(savedEmployeePath, "utf-8");
 
-        // if (savedEmployees === null) {
-
-        // } else {
-        //     employeeArray = savedEmployees;
-        // }
+        if (savedEmployees.length != 0) {
+            JSON.parse(savedEmployees).forEach((item) => {
+                let tempEmp;
+                if (item.role === "Manager") {
+                    tempEmp = new Manager(item.name, item.id, item.email, item.officeNumber);
+                } else if (item.role === "Engineer") {
+                    tempEmp = new Engineer(item.name, item.id, item.email, item.github);
+                } else if (item.role === "Intern") {
+                    tempEmp = new Intern(item.name, item.id, item.email, item.school);
+                }
+                employeeArray.push(tempEmp);
+            });
+        }
 
         console.log(employeeArray);
 
