@@ -128,8 +128,6 @@ async function init() {
             });
         }
 
-        console.log(employeeArray);
-
         while (addingEmployee) {
             employeeAnswers = await promptEmployee();
             employee = await createEmployee(employeeAnswers);
@@ -140,16 +138,12 @@ async function init() {
             }
         }
 
-        console.log(employeeArray);
-
         await writeFileAsync(savedEmployeePath, JSON.stringify(employeeArray, null, 2));
 
         let html = render(employeeArray);
-        console.log(JSON.stringify(employeeArray));
 
         await writeFileAsync(outputPath, html);
 
-        console.log(html);
         console.log("Everything went well!");
     } catch (error) {
         console.log(`Error: ${error}`);
