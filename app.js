@@ -105,15 +105,15 @@ function promptAnother() {
 function createSavedEmployees(savedEmployees) {
     let employeeArray = [];
     JSON.parse(savedEmployees).forEach((item) => {
-        let tempEmp;
+        let employee;
         if (item.role === "Manager") {
-            tempEmp = new Manager(item.name, item.id, item.email, item.officeNumber);
+            employee = new Manager(item.name, item.id, item.email, item.officeNumber);
         } else if (item.role === "Engineer") {
-            tempEmp = new Engineer(item.name, item.id, item.email, item.github);
+            employee = new Engineer(item.name, item.id, item.email, item.github);
         } else if (item.role === "Intern") {
-            tempEmp = new Intern(item.name, item.id, item.email, item.school);
+            employee = new Intern(item.name, item.id, item.email, item.school);
         }
-        employeeArray.push(tempEmp);
+        employeeArray.push(employee);
     });
     return employeeArray;
 }
