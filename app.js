@@ -8,8 +8,10 @@ const fs = require("fs");
 
 const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
+const savedEmployeePath = path.join(OUTPUT_DIR, "saved-employees.json");
 
 const writeFileAsync = util.promisify(fs.writeFile);
+const readFileAsync = util.promisify(fs.readFile);
 
 const render = require("./lib/htmlRenderer");
 
@@ -107,6 +109,17 @@ async function init() {
         let employeeAnswers;
         let employee;
         let another;
+
+        // const savedEmployees = await readFileAsync(savedEmployeePath, "utf-8");
+
+        // if (savedEmployees === null) {
+
+        // } else {
+        //     employeeArray = savedEmployees;
+        // }
+
+        console.log(employeeArray);
+
         while (addingEmployee) {
             employeeAnswers = await promptEmployee();
             employee = await createEmployee(employeeAnswers);
@@ -117,7 +130,16 @@ async function init() {
             }
         }
 
+        console.log(employeeArray);
+
+        await writeFileAsync(savedEmployeePath, JSON.stringify(employeeArray, null, 2));
+
+        let html = render(employeeArray);
         console.log(JSON.stringify(employeeArray));
+
+        await writeFileAsync(outputPath, html);
+
+        console.log(html);
         console.log("Everything went well!");
     } catch (error) {
         console.log(`Error: ${error}`);
