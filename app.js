@@ -1,6 +1,3 @@
-const Manager = require("./lib/Manager");
-const Engineer = require("./lib/Engineer");
-const Intern = require("./lib/Intern");
 const util = require("util");
 const path = require("path");
 const fs = require("fs");
@@ -14,52 +11,11 @@ const readFileAsync = util.promisify(fs.readFile);
 
 const render = require("./lib/htmlRenderer");
 const prompt = require("./lib/prompts");
+const createEmployees = require("./lib/create-employees")
 
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
-
-async function createEmployee(employeeAnswers) {
-    try {
-        let roleAnswers;
-        let employee;
-        switch (employeeAnswers.role) {
-            case ("Manager"):
-                roleAnswers = await prompt.promptManager();
-                employee = new Manager(employeeAnswers.name, employeeAnswers.id, employeeAnswers.email, roleAnswers.officeNumber);
-                break;
-            case ("Engineer"):
-                roleAnswers = await prompt.promptEngineer();
-                employee = new Engineer(employeeAnswers.name, employeeAnswers.id, employeeAnswers.email, roleAnswers.github);
-                break;
-            case ("Intern"):
-                roleAnswers = await prompt.promptIntern();
-                employee = new Intern(employeeAnswers.name, employeeAnswers.id, employeeAnswers.email, roleAnswers.school);
-                break;
-            default:
-                console.log("No Role");
-        }
-        return employee;
-    } catch (error) {
-        console.log(`Error: ${error}`);
-    }
-}
-
-function createSavedEmployees(savedEmployees) {
-    let employeeArray = [];
-    JSON.parse(savedEmployees).forEach((item) => {
-        let employee;
-        if (item.role === "Manager") {
-            employee = new Manager(item.name, item.id, item.email, item.officeNumber);
-        } else if (item.role === "Engineer") {
-            employee = new Engineer(item.name, item.id, item.email, item.github);
-        } else if (item.role === "Intern") {
-            employee = new Intern(item.name, item.id, item.email, item.school);
-        }
-        employeeArray.push(employee);
-    });
-    return employeeArray;
-}
 
 async function init() {
     try {
@@ -68,7 +24,7 @@ async function init() {
         const savedEmployees = await readFileAsync(savedEmployeePath, "utf-8");
 
         if (savedEmployees.length != 0) {
-            employeeArray = createSavedEmployees(savedEmployees);
+            employeeArray = createEmployees.createSavedEmployees(savedEmployees);
         }
 
         let addingEmployee = true;
@@ -78,7 +34,7 @@ async function init() {
                 addingEmployee = false;
             } else {
                 let employeeAnswers = await prompt.promptEmployee();
-                let employee = await createEmployee(employeeAnswers);
+                let employee = await createEmployees.createEmployee(employeeAnswers);
                 employeeArray.push(employee);
             }
         }
