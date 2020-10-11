@@ -11,8 +11,6 @@ const readFileAsync = util.promisify(fs.readFile);
 
 const render = require("./lib/htmlRenderer");
 const prompt = require("./lib/prompts");
-const createEmployees = require("./lib/create-employees")
-
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
@@ -22,30 +20,19 @@ async function init() {
         let employeeArray = [];
 
         const savedEmployees = await readFileAsync(savedEmployeePath, "utf-8");
+        const parsedSavedEmployees = JSON.parse(savedEmployees);
 
-        if (savedEmployees.length != 0) {
-            employeeArray = createEmployees.createSavedEmployees(savedEmployees);
+        if (Object.keys(parsedSavedEmployees).length != 0) {
+            employeeArray = prompt.createSavedEmployees(parsedSavedEmployees);
         }
 
-        let addingEmployee = true;
-        while (addingEmployee) {
-            let another = await prompt.promptAnother();
-            if (another.adding === false) {
-                addingEmployee = false;
-            } else {
-                let employeeAnswers = await prompt.promptEmployee();
-                let employee = await createEmployees.createEmployee(employeeAnswers);
-                employeeArray.push(employee);
-            }
-        }
-
+        let newEmployees = await prompt.addEmployee(employeeArray);
+        employeeArray.concat(newEmployees);
         await writeFileAsync(savedEmployeePath, JSON.stringify(employeeArray, null, 2));
-
         let html = render(employeeArray);
-
         await writeFileAsync(outputPath, html.replace(/,/g, ""));
+        console.log("Employee Added");
 
-        console.log("Everything went well!");
     } catch (error) {
         console.log(`Error: ${error}`);
     }
