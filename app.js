@@ -1,7 +1,6 @@
 const Manager = require("./lib/Manager");
 const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
-const inquirer = require("inquirer");
 const util = require("util");
 const path = require("path");
 const fs = require("fs");
@@ -14,59 +13,11 @@ const writeFileAsync = util.promisify(fs.writeFile);
 const readFileAsync = util.promisify(fs.readFile);
 
 const render = require("./lib/htmlRenderer");
+const prompt = require("./lib/prompts");
 
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
-
-function promptEmployee() {
-    return inquirer.prompt([{
-            type: "input",
-            message: "Enter Employees Name: ",
-            name: "name"
-        },
-        {
-            type: "input",
-            message: "Enter Employees ID: ",
-            name: "id"
-        },
-        {
-            type: "input",
-            message: "Enter Employees Email: ",
-            name: "email"
-        },
-        {
-            type: "list",
-            message: "Enter Employees Role: ",
-            choices: ["Manager", "Engineer", "Intern"],
-            name: "role"
-        }
-    ]);
-}
-
-function promptManager() {
-    return inquirer.prompt([{
-        type: "input",
-        message: "Enter Managers Office Number: ",
-        name: "officeNumber"
-    }]);
-}
-
-function promptEngineer() {
-    return inquirer.prompt([{
-        type: "input",
-        message: "Enter Engineers Github Account Name: ",
-        name: "github"
-    }]);
-}
-
-function promptIntern() {
-    return inquirer.prompt([{
-        type: "input",
-        message: "Enter Interns School: ",
-        name: "school"
-    }]);
-}
 
 async function createEmployee(employeeAnswers) {
     try {
@@ -74,15 +25,15 @@ async function createEmployee(employeeAnswers) {
         let employee;
         switch (employeeAnswers.role) {
             case ("Manager"):
-                roleAnswers = await promptManager();
+                roleAnswers = await prompt.promptManager();
                 employee = new Manager(employeeAnswers.name, employeeAnswers.id, employeeAnswers.email, roleAnswers.officeNumber);
                 break;
             case ("Engineer"):
-                roleAnswers = await promptEngineer();
+                roleAnswers = await prompt.promptEngineer();
                 employee = new Engineer(employeeAnswers.name, employeeAnswers.id, employeeAnswers.email, roleAnswers.github);
                 break;
             case ("Intern"):
-                roleAnswers = await promptIntern();
+                roleAnswers = await prompt.promptIntern();
                 employee = new Intern(employeeAnswers.name, employeeAnswers.id, employeeAnswers.email, roleAnswers.school);
                 break;
             default:
@@ -92,14 +43,6 @@ async function createEmployee(employeeAnswers) {
     } catch (error) {
         console.log(`Error: ${error}`);
     }
-}
-
-function promptAnother() {
-    return inquirer.prompt([{
-        type: "confirm",
-        message: "Add an employee?",
-        name: "adding"
-    }])
 }
 
 function createSavedEmployees(savedEmployees) {
@@ -130,11 +73,11 @@ async function init() {
 
         let addingEmployee = true;
         while (addingEmployee) {
-            let another = await promptAnother();
+            let another = await prompt.promptAnother();
             if (another.adding === false) {
                 addingEmployee = false;
             } else {
-                let employeeAnswers = await promptEmployee();
+                let employeeAnswers = await prompt.promptEmployee();
                 let employee = await createEmployee(employeeAnswers);
                 employeeArray.push(employee);
             }
