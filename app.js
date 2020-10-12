@@ -18,6 +18,8 @@ const prompt = require("./lib/prompts");
 async function init() {
     try {
         let employeeArray = [];
+        let newEmployees = [];
+        let html = "";
 
         const savedEmployees = await readFileAsync(savedEmployeePath, "utf-8");
         const parsedSavedEmployees = JSON.parse(savedEmployees);
@@ -26,11 +28,13 @@ async function init() {
             employeeArray = prompt.createSavedEmployees(parsedSavedEmployees);
         }
 
-        let newEmployees = await prompt.addEmployee(employeeArray);
+        newEmployees = await prompt.addEmployee(employeeArray);
         employeeArray.concat(newEmployees);
+        html = render(employeeArray);
+
         await writeFileAsync(savedEmployeePath, JSON.stringify(employeeArray, null, 2));
-        let html = render(employeeArray);
         await writeFileAsync(outputPath, html.replace(/,/g, ""));
+
         console.log("Employee Added");
 
     } catch (error) {
