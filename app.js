@@ -11,6 +11,25 @@ const readFileAsync = util.promisify(fs.readFile);
 
 const render = require("./lib/htmlRenderer");
 const prompt = require("./lib/prompts");
+const createEmployee = require("./lib/create-employees");
+
+async function addEmployee(employeeArray) {
+    try {
+        let addingEmployee = true;
+        while (addingEmployee) {
+            let another = await prompt.promptAnother();
+            if (another.adding === false) {
+                addingEmployee = false;
+            } else {
+                let newEmployee = await createEmployee.createEmployee();
+                employeeArray.push(newEmployee);
+            }
+        }
+        return employeeArray;
+    } catch (error) {
+        console.log(error);
+    }
+}
 
 async function init() {
     try {
@@ -22,10 +41,10 @@ async function init() {
         const parsedSavedEmployees = JSON.parse(savedEmployees);
 
         if (Object.keys(parsedSavedEmployees).length != 0) {
-            employeeArray = prompt.createSavedEmployees(parsedSavedEmployees);
+            employeeArray = createEmployee.createSavedEmployees(parsedSavedEmployees);
         }
 
-        newEmployees = await prompt.addEmployee(employeeArray);
+        newEmployees = await addEmployee(employeeArray);
         employeeArray.concat(newEmployees);
         html = render(employeeArray);
 
