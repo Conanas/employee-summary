@@ -23,6 +23,7 @@ async function addEmployee(employeeArray) {
             } else {
                 let newEmployee = await createEmployee.createEmployee();
                 employeeArray.push(newEmployee);
+                console.log("Employee added");
             }
         }
         return employeeArray;
@@ -51,7 +52,7 @@ async function init() {
         await writeFileAsync(savedEmployeePath, JSON.stringify(employeeArray, null, 2));
         await writeFileAsync(outputPath, html.replace(/,/g, ""));
 
-        console.log("Employee Added");
+        console.log("Web page generated");
 
     } catch (error) {
         console.log(`Error: ${error}`);
