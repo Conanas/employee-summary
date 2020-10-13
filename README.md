@@ -33,7 +33,7 @@ Follow the on screen prompts and provide the information, please note that each 
 
 ## Video Demonstration
 
-
+![Team Roster](https://media.giphy.com/media/jdbUVTv3aombcQWJtY/giphy.gif "Team Roster")
 
 ## Screenshot
 
