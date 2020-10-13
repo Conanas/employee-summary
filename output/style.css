@@ -22,10 +22,16 @@ h6 {
     font-weight: 700;
 }
 
+
+/* styling for page header */
+
 .team-heading {
     background-color: var(--navy);
     color: var(--french-grey);
 }
+
+
+/* employee card stylings */
 
 .employee-card {
     width: 300px;
@@ -54,6 +60,9 @@ h6 {
     background-color: var(--french-grey);
     color: var(--navy);
 }
+
+
+/* styling for page footer */
 
 footer {
     background-color: var(--navy);
