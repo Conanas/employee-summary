@@ -37,4 +37,4 @@ Follow the on screen prompts and provide the information, please note that each 
 
 ## Screenshot
 
-![Team Roster](assets\screenshots\team-roster.png "Team Roster")
+![Team Roster](./assets/screenshots/team-roster.png "Team Roster")
